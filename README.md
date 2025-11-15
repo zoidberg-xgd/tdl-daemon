@@ -39,7 +39,7 @@ brew install screen
 
 ```bash
 # 克隆仓库
-git clone https://github.com/your-username/tdl-daemon.git
+git clone https://github.com/zoidberg-xgd/tdl-daemon.git
 cd tdl-daemon
 
 # 设置执行权限
