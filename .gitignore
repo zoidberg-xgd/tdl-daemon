@@ -1,0 +1,27 @@
+# 配置文件（用户自定义，不应提交）
+tdl-daemon.conf
+*.conf.bak.*
+
+# 日志文件
+logs/
+*.log
+
+# 下载目录
+downloads/
+
+# 备份文件
+*.bak
+*.bak.*
+
+# 临时文件
+*.tmp
+*.swp
+*~
+
+# macOS
+.DS_Store
+
+# 压缩包
+*.zip
+*.tar.gz
+*.tar

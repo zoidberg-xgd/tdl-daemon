@@ -40,6 +40,7 @@ brew install screen
 **推荐方式：将脚本放在 tdl 项目根目录下**
 
 ```bash
+<<<<<<< HEAD
 # 进入 tdl 项目根目录（请根据实际情况修改路径）
 cd ~/tdl
 
@@ -48,6 +49,14 @@ git clone https://github.com/zoidberg-xgd/tdl-daemon.git
 
 # 进入目录并设置执行权限
 cd tdl-daemon
+=======
+# 克隆仓库到 tdl 项目根目录
+cd /path/to/tdl
+git clone https://github.com/zoidberg-xgd/tdl-daemon.git
+cd tdl-daemon
+
+# 设置执行权限
+>>>>>>> 97a8837a4324f02ef226ad3ca02755e4b0ddf4dc
 chmod +x tdl-daemon.sh
 ```
 
