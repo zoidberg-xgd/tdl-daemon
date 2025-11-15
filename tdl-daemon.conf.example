@@ -1,47 +1,61 @@
-# tdl-daemon 配置文件
+# tdl-daemon 配置文件示例
 # 
 # 使用方法：
 # 1. 复制此文件为 tdl-daemon.conf
-# 2. 修改下面的配置项
+#    cp tdl-daemon.conf.example tdl-daemon.conf
+# 2. 编辑 tdl-daemon.conf，修改下面的配置项
 # 3. 运行 ./tdl-daemon.sh start
+#
+# 注意：此文件不会被提交到 Git，可以安全地包含隐私信息
 
 # ============================================
-# 下载配置
+# 下载配置（必填）
 # ============================================
 
-# 下载目录（相对于脚本目录，或使用绝对路径）
+# 下载目录
+# 相对于脚本目录，或使用绝对路径
+# 示例: "downloads" 或 "/path/to/downloads"
 DOWNLOAD_DIR="downloads"
 
 # 下载线程数
+# 建议值: 2-8，根据网络和系统性能调整
 THREADS="4"
 
-# Telegram 消息链接（支持多个 URL，每行一个）
-# 格式：URL="https://t.me/channel/123"
+# Telegram 消息链接（支持多个 URL）
+# 每行一个 URL，取消注释并填入实际链接
+# 格式: "https://t.me/channel/123"
 URLS=(
     # "https://t.me/your_channel/123"
     # "https://t.me/your_channel/456"
 )
 
-# 是否使用 takeout 模式（降低限流）
-# 设置为 "yes" 启用，其他值或留空为禁用
+# 是否使用 takeout 模式
+# 设置为 "yes" 启用（降低限流，但可能影响下载速度）
+# 设置为 "no" 或留空禁用
 USE_TAKEOUT="no"
 
 # ============================================
 # 高级配置（可选）
 # ============================================
 
-# tdl 命令路径（留空则自动查找）
-# 如果 tdl 不在 PATH 中，可以设置绝对路径，例如：
-# TDL_CMD="/usr/local/bin/tdl"
+# tdl 命令路径
+# 留空则自动查找（推荐）
+# 如果 tdl 不在 PATH 中，可以设置绝对路径
+# 示例: "/usr/local/bin/tdl dl" 或 "/path/to/tdl dl"
 TDL_CMD=""
 
-# 工作目录（tdl 命令执行的工作目录）
-# 默认使用脚本所在目录，可以设置为其他路径
+# 工作目录
+# tdl 命令执行的工作目录
+# 留空则使用脚本所在目录（推荐）
+# 示例: "/path/to/workdir"
 WORK_DIR=""
 
-# 最大重启次数（0 表示无限制）
+# 最大重启次数
+# 0 表示无限制，正整数表示最大重启次数
+# 建议值: 10-20
 MAX_RESTARTS="10"
 
 # 重启延迟（秒）
+# 程序异常退出后，等待多少秒再重启
+# 建议值: 3-10
 RESTART_DELAY="5"
-
