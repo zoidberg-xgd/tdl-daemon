@@ -4,6 +4,8 @@
 
 tdl 下载任务的守护进程管理工具，支持后台运行、实时监控、自动重启和断点续传。
 
+> 基于 [tdl](https://github.com/iyear/tdl) 项目
+
 ## 功能特性
 
 - 后台运行：使用 screen 在后台运行 tdl 下载任务
@@ -17,7 +19,7 @@ tdl 下载任务的守护进程管理工具，支持后台运行、实时监控�
 ## 前置要求
 
 - `screen` 已安装
-- `tdl` 已安装（脚本会自动查找）
+- [`tdl`](https://github.com/iyear/tdl) 已安装（脚本会自动查找）
 - Bash 4.0+（Linux 和 macOS 通常已预装）
 
 ### 安装依赖
