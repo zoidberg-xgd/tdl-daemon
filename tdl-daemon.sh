@@ -275,15 +275,15 @@ check_tdl() {
         echo "  export PATH=\"\$PATH:/path/to/tdl/directory\""
         echo ""
         echo "方法 2: 在配置文件中设置 TDL_CMD（推荐）"
-        local config_file="${SCRIPT_DIR}/tdl-daemon.conf"
-        if [[ -f "$config_file" ]]; then
-            echo "  编辑 $config_file，设置："
+        local config_file_path="${SCRIPT_DIR}/tdl-daemon.conf"
+        if [[ -f "${config_file_path:-}" ]]; then
+            echo "  编辑 ${config_file_path}，设置："
             echo "  TDL_CMD=\"/path/to/tdl dl\""
         else
             echo "  运行交互式配置："
             echo "  ./tdl-daemon.sh config"
             echo ""
-            echo "  或创建配置文件 $config_file，设置："
+            echo "  或创建配置文件 ${config_file_path}，设置："
             echo "  TDL_CMD=\"/path/to/tdl dl\""
         fi
         echo ""
@@ -327,12 +327,12 @@ check_tdl() {
     log_debug "找到 tdl: $tdl_path"
     
     # 如果配置文件存在且 TDL_CMD 为空，提示用户保存配置
-    local config_file="${SCRIPT_DIR}/tdl-daemon.conf"
-    if [[ -f "$config_file" ]]; then
-        local config_tdl_cmd=$(grep "^TDL_CMD=" "$config_file" 2>/dev/null | cut -d'"' -f2)
+    local config_file_path="${SCRIPT_DIR}/tdl-daemon.conf"
+    if [[ -f "${config_file_path:-}" ]]; then
+        local config_tdl_cmd=$(grep "^TDL_CMD=" "${config_file_path}" 2>/dev/null | cut -d'"' -f2)
         if [[ -z "$config_tdl_cmd" ]]; then
             log_info "提示: 建议在配置文件中保存 tdl 路径，避免每次查找"
-            echo "  编辑 $config_file，添加："
+            echo "  编辑 ${config_file_path}，添加："
             echo "  TDL_CMD=\"$TDL_CMD\""
         fi
     fi
