@@ -263,17 +263,77 @@ check_tdl() {
     if [[ -z "$tdl_path" ]]; then
         log_error "tdl 命令未找到"
         echo ""
+        echo "脚本已尝试在以下位置查找 tdl："
+        echo "  - PATH 环境变量"
+        echo "  - 脚本目录的父目录: $SCRIPT_DIR/../tdl"
+        echo "  - 脚本所在目录: $SCRIPT_DIR/tdl"
+        echo "  - 常见位置: ~/go/bin/tdl, ~/.local/bin/tdl, /usr/local/bin/tdl"
+        echo ""
         echo "请尝试以下方法之一："
-        echo "  1. 将 tdl 添加到 PATH"
-        echo "  2. 在脚本中设置 TDL_CMD 为绝对路径，例如："
-        echo "     TDL_CMD=\"/path/to/tdl dl\""
-        echo "  3. 将 tdl 放在项目根目录（脚本目录的上一级）"
+        echo ""
+        echo "方法 1: 将 tdl 添加到 PATH"
+        echo "  export PATH=\"\$PATH:/path/to/tdl/directory\""
+        echo ""
+        echo "方法 2: 在配置文件中设置 TDL_CMD（推荐）"
+        if [[ -f "$CONFIG_FILE" ]]; then
+            echo "  编辑 $CONFIG_FILE，设置："
+            echo "  TDL_CMD=\"/path/to/tdl dl\""
+        else
+            echo "  运行交互式配置："
+            echo "  ./tdl-daemon.sh config"
+            echo ""
+            echo "  或创建配置文件 $CONFIG_FILE，设置："
+            echo "  TDL_CMD=\"/path/to/tdl dl\""
+        fi
+        echo ""
+        echo "方法 3: 将 tdl 放在脚本目录的父目录"
+        echo "  cp /path/to/tdl $SCRIPT_DIR/../tdl"
+        echo ""
+        
+        # 尝试查找可能的 tdl 位置
+        local possible_locations=()
+        if [[ -f "$SCRIPT_DIR/../tdl" ]]; then
+            possible_locations+=("$SCRIPT_DIR/../tdl (父目录)")
+        fi
+        if [[ -f "$SCRIPT_DIR/tdl" ]]; then
+            possible_locations+=("$SCRIPT_DIR/tdl (脚本目录)")
+        fi
+        if [[ -f "$HOME/go/bin/tdl" ]]; then
+            possible_locations+=("$HOME/go/bin/tdl")
+        fi
+        if [[ -f "$HOME/.local/bin/tdl" ]]; then
+            possible_locations+=("$HOME/.local/bin/tdl")
+        fi
+        if [[ -f "/usr/local/bin/tdl" ]]; then
+            possible_locations+=("/usr/local/bin/tdl")
+        fi
+        
+        if [[ ${#possible_locations[@]} -gt 0 ]]; then
+            echo "提示: 检测到以下位置可能存在 tdl 文件："
+            for loc in "${possible_locations[@]}"; do
+                echo "  - $loc"
+            done
+            echo ""
+            echo "如果上述位置有 tdl 文件，请检查文件权限："
+            echo "  chmod +x /path/to/tdl"
+        fi
+        
         exit 1
     fi
     
     # 更新 TDL_CMD 为找到的路径
     TDL_CMD="$tdl_path dl"
     log_debug "找到 tdl: $tdl_path"
+    
+    # 如果配置文件存在且 TDL_CMD 为空，提示用户保存配置
+    if [[ -f "$CONFIG_FILE" ]]; then
+        local config_tdl_cmd=$(grep "^TDL_CMD=" "$CONFIG_FILE" 2>/dev/null | cut -d'"' -f2)
+        if [[ -z "$config_tdl_cmd" ]]; then
+            log_info "提示: 建议在配置文件中保存 tdl 路径，避免每次查找"
+            echo "  编辑 $CONFIG_FILE，添加："
+            echo "  TDL_CMD=\"$TDL_CMD\""
+        fi
+    fi
 }
 
 # 创建必要的目录
