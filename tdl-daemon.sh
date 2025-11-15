@@ -288,7 +288,13 @@ check_tdl() {
         fi
         echo ""
         echo "方法 3: 将 tdl 放在脚本目录的父目录"
-        echo "  cp /path/to/tdl $SCRIPT_DIR/../tdl"
+        local parent_tdl_path="$SCRIPT_DIR/../tdl"
+        echo "  cp /path/to/tdl $parent_tdl_path"
+        if [[ -f "$parent_tdl_path" ]]; then
+            echo ""
+            echo "提示: 检测到 $parent_tdl_path 文件存在，但可能没有执行权限"
+            echo "  请运行: chmod +x $parent_tdl_path"
+        fi
         echo ""
         
         # 尝试查找可能的 tdl 位置
