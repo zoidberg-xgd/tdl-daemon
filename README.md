@@ -37,8 +37,11 @@ brew install screen
 
 ### 从 GitHub 安装
 
+**推荐方式：将脚本放在 tdl 项目根目录下**
+
 ```bash
-# 克隆仓库
+# 克隆仓库到 tdl 项目根目录
+cd /path/to/tdl
 git clone https://github.com/zoidberg-xgd/tdl-daemon.git
 cd tdl-daemon
 
@@ -46,9 +49,29 @@ cd tdl-daemon
 chmod +x tdl-daemon.sh
 ```
 
-**注意**：tdl-daemon 是独立工具，可以放在任何位置运行。
+**优势**：
+- 脚本会自动在父目录找到 `tdl` 命令，无需配置
+- 下载文件统一管理
+- 便于维护和更新
+
+**其他位置**：tdl-daemon 也可以放在任何位置运行，但需要手动配置 `TDL_CMD` 路径。
 
 ## 快速开始
+
+### 0. 安装位置（推荐）
+
+将 `tdl-daemon` 放在 tdl 项目根目录下，目录结构如下：
+
+```
+tdl/                    # tdl 项目根目录
+├── tdl                # tdl 可执行文件
+└── tdl-daemon/        # tdl-daemon 脚本目录
+    ├── tdl-daemon.sh
+    ├── tdl-daemon.conf.example
+    └── ...
+```
+
+这样脚本会自动找到 `tdl` 命令，无需额外配置。
 
 ### 1. 配置
 
@@ -175,10 +198,15 @@ WORK_DIR=""          # 工作目录（留空使用脚本目录）
 
 ## 工作原理
 
-1. 使用 screen 在后台运行 tdl 命令
-2. 自动添加 `--continue` 标志以支持断点续传
-3. 监控进程状态，异常退出时自动重启
-4. 所有输出记录到 `logs/tdl-daemon.log`
+1. 自动查找 tdl 命令（按以下顺序）：
+   - PATH 环境变量
+   - 脚本目录的父目录（推荐位置）
+   - 脚本所在目录
+   - 常见安装位置
+2. 使用 screen 在后台运行 tdl 命令
+3. 自动添加 `--continue` 标志以支持断点续传
+4. 监控进程状态，异常退出时自动重启
+5. 所有输出记录到 `logs/tdl-daemon.log`
 
 ## 使用场景
 
